@@ -7,7 +7,7 @@ Regex cookbook
 . - Matches any character, except for line breaks if dotall is false.
 * - Matches 0 or more of the preceding character.
 + - Matches 1 or more of the preceding character.
-? - Preceding character is optional. Matches 0 or 1 occurrence.
+? - preceed character is optional. Matches 0 or 1 occurrence.
 \d - Matches any single digit
 \w - Matches any word character (alphanumeric & underscore).
 [XYZ] - Matches any single character from the character class.
@@ -49,6 +49,11 @@ def email_address_check(email):
 email_address_check('simon@logicdesign.co.uk')
 email_address_check('simon@logicdesign.com')
 
+
+# Matching a URL
+
+---
+
 # Check if string starts with with AB or AC preceeded with 8-10 numbers for example AC12345678
 
 def check_string_ac(string):
@@ -83,6 +88,10 @@ check_if_is_image('image.jpg')
 check_if_is_image('image.JPG')
 check_if_is_image('file.php')
 
+# Matching a Hex Value
+
+---
+
 
 # does string contain 2 letters either LD or AZ at the start, followed by 5 numbers and a (.) then a domain name. For example LD89780.simonfletcher.co.uk
 
@@ -102,6 +111,11 @@ do_check('LD89780.simonfletcher.co.uk');
 do_check('LD89780.simonfletcher');
 
 
+# Matching an HTML Tag
+
+--
+
+
 def replace_span(string):
 
 	output = re.sub(r'^(<(span)>)(.*)(</(span)>)$', r'<strong>\3</strong>', string)
@@ -111,3 +125,42 @@ def replace_span(string):
 
 replace_span('<span>Replace span with strong</span>')
 
+# Username must contain one uppercase and one lowercase charater and two digits
+
+def check_username(string):
+
+	if not re.match(r'^([?=.*A-Z])([?=.*a-z])(?=.*\d).{8,15}', string):
+
+		print string + " does not match"
+
+	else:
+
+		print string + " matches"
+
+check_username('Fletcher890')
+check_username('Fletc0her')
+
+
+# Matching a Password
+
+--
+
+# Match an generic english car registration 
+
+def check_numberplace(string):
+
+	if not re.match(r'(([A-Z]{2})\s?(\d{2})\s?([A-Z]){3})', string):
+
+		print string + " does not match"
+
+	else:
+
+		print string + " matches"
+
+check_numberplace('AD 64 HGV')
+check_numberplace('AD64HGV')
+check_numberplace('64ADHGV')
+
+# Matching an IP Address
+
+-- 
