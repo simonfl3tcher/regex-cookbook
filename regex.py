@@ -84,12 +84,12 @@ check_if_is_image('image.JPG')
 check_if_is_image('file.php')
 
 
-# does string contain 5 letters with the first two being with LD or AZ. After the five letters is the a dot preceeded with 12 alphanumeric characters
+# does string contain 2 letters either LD or AZ at the start, followed by 5 numbers and a (.) then a domain name. For example LD89780.simonfletcher.co.uk
 
 
 def do_check(string):
 
-	if not re.match(r'^[a-zA-Z0-9_]*$', string):
+	if not re.match(r'^((LD|AZ)\d{5})(\.)([a-zA-Z0-9]+\.[a-zA-Z.]{2,5})$', string):
 
 		print string + " does not match"
 
@@ -98,4 +98,16 @@ def do_check(string):
 		print string + " matches"
 
 
-do_check('testing');
+do_check('LD89780.simonfletcher.co.uk');
+do_check('LD89780.simonfletcher');
+
+
+def replace_span(string):
+
+	output = re.sub(r'^(<(span)>)(.*)(</(span)>)$', r'<strong>\3</strong>', string)
+
+	print output
+
+
+replace_span('<span>Replace span with strong</span>')
+
