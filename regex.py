@@ -1,44 +1,55 @@
 #!/usr/bin/env python
 
+import re
+
 '''
 
 Regex cookbook
 
-. - Matches any character, except for line breaks if dotall is false.
-* - Matches 0 or more of the preceding character.
-+ - Matches 1 or more of the preceding character.
-? - preceed character is optional. Matches 0 or 1 occurrence.
-\d - Matches any single digit
-\w - Matches any word character (alphanumeric & underscore).
-[XYZ] - Matches any single character from the character class.
-[XYZ]+ - Matches one or more of any of the characters in the set.
-$ - Matches the end of the string.
-^ - Matches the beginning of a string.
-[^a-z] - When inside of a character class, the ^ means NOT; in this case, match anything that is NOT a lowercase letter. 
-(|) - one string or the other, either side of the pipe
-i - matches upper or lowercase it doesn't matter
-
-^ : start of string
-[ : beginning of character group
-a-z : any lowercase letter
-A-Z : any uppercase letter
-0-9 : any digit
-_ : underscore
-] : end of character group
-* : zero or more of the given characters
-$ : end of string
+^		- start of string
+[		- beginning of character group
+a-z		- any lowercase letter
+A-Z		- any uppercase letter
+0-9		- any digit
+_		- underscore
+]		- end of character group
+$		- end of string
+. 		- Matches any character, except for line breaks if dotall is false.
+* 		- Matches 0 or more of the preceding character.
++ 		- Matches 1 or more of the preceding character.
+? 		- preceed character is optional. Matches 0 or 1 occurrence.
+\d 		- Matches any single digit
+\w 		- Matches any word character (alphanumeric & underscore).
+[XYZ] 	- Matches any single character from the character class.
+[XYZ]+ 	- Matches one or more of any of the characters in the set.
+(|)		- one string or the other, either side of the pipe
+i 		- matches upper or lowercase it doesn't matter
 
 All regexes below are my own thought out regular expressions, if you feel the need to use them then please by all means.
 
+
 '''
 
-import re
+variable = [
+	'([a-zA-Z])+@([a-zA-Z0-9])+\.[a-zA-Z.]{2,5}', # email address check
+	'^(https?:\/\/)?(www.)?([\da-z\.-]+)\.([a-z\.]{2,6})\/?$', # check url
+	'^(AB|AC)\d{8,12}$', # Check if string starts with with AB or AC preceeded with 8-10 numbers for example AC12345678
+	'([a-zA-Z0-9])+(\.(?i)(gif|jpg|jpeg|tiff|png))+$', # does string contain image extentions
+	'^#([a-f0-9]{6}|[a-f0-9]{3})', # matches a colour hex value i.e. #a5a5a5 or #fff
+	'^((LD|AZ)\d{5})(\.)([a-zA-Z0-9]+\.[a-zA-Z.]{2,5})$', # Special
+	'^<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)$', # Matching an HTML Tag 
+	'(.*[?=.*A-Z])([?=.*a-z])(?=.*\d).{6,15}$', # Username check
+	'(([A-Z]{2})\s?(\d{2})\s?([A-Z]){3})', # match english car registration
+	'(.*[?=.*A-Z])([?=.*a-z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{6,15}$', # Special
+	'^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}?:\d{2,4})$' # IP Address Check
+]
 
-# Checks if email address is valid
 
-def email_address_check(email):
+# # Checks if email address is valid
 
-	if not re.match(r'([a-zA-Z])+@([a-zA-Z0-9])+\.[a-zA-Z.]{2,5}', email):
+def do_check(regex, email):
+
+	if not re.match(r'' + regex, email):
 
 		print email + " does not match"
 
@@ -46,121 +57,73 @@ def email_address_check(email):
 
 		print email + " matches"
 
-email_address_check('simon@logicdesign.co.uk')
-email_address_check('simon@logicdesign.com')
 
-
-# Matching a URL
-
----
-
-# Check if string starts with with AB or AC preceeded with 8-10 numbers for example AC12345678
-
-def check_string_ac(string):
-
-	if not re.match(r'^(AB|AC)\d{8,12}$', string):
-
-		print string + " does not match"
-
-	else: 
-
-		print string + " matches"
-
-
-check_string_ac('AC12345678')
-check_string_ac('AC123456789999999')
-
-# does string contain image extentions
-	
-def check_if_is_image(string):
-
-	# it does a match as to wether the upper and lowercase extentions have been used.
-
-	if not re.match(r'([a-zA-Z0-9])+(\.(?i)(gif|jpg|jpeg|tiff|png))+$', string):
-
-		print string + " does not match"
-
-	else:
-
-		print string + " matches"
-
-check_if_is_image('image.jpg')
-check_if_is_image('image.JPG')
-check_if_is_image('file.php')
-
-# Matching a Hex Value
-
----
-
-
-# does string contain 2 letters either LD or AZ at the start, followed by 5 numbers and a (.) then a domain name. For example LD89780.simonfletcher.co.uk
-
-
-def do_check(string):
-
-	if not re.match(r'^((LD|AZ)\d{5})(\.)([a-zA-Z0-9]+\.[a-zA-Z.]{2,5})$', string):
-
-		print string + " does not match"
-
-	else:
-
-		print string + " matches"
-
-
-do_check('LD89780.simonfletcher.co.uk');
-do_check('LD89780.simonfletcher');
-
-
-# Matching an HTML Tag
-
---
-
-
-def replace_span(string):
+def replace_span_with_strong(string):
 
 	output = re.sub(r'^(<(span)>)(.*)(</(span)>)$', r'<strong>\3</strong>', string)
 
 	print output
 
 
-replace_span('<span>Replace span with strong</span>')
+replace_span_with_strong('<span>Replace span with strong</span>')
 
-# Username must contain one uppercase and one lowercase charater and two digits
+# # Email address check
 
-def check_username(string):
+do_check(variable[0], 'simon@logicdesign.co.uk')
+do_check(variable[0], 'simon@logicdesign.com')
 
-	if not re.match(r'^([?=.*A-Z])([?=.*a-z])(?=.*\d).{8,15}', string):
+# # URL check
 
-		print string + " does not match"
-
-	else:
-
-		print string + " matches"
-
-check_username('Fletcher890')
-check_username('Fletc0her')
+do_check(variable[1], 'https://www.google.co.uk/')
+do_check(variable[1], 'google.co.uk///')
 
 
-# Matching a Password
+# # Check if string starts with with AB or AC preceeded with 8-10 numbers for example AC12345678
 
---
+do_check(variable[2], 'AC12345678')
+do_check(variable[2], 'AC123456789999999')
 
-# Match an generic english car registration 
 
-def check_numberplace(string):
+# # does string contain image extentions
 
-	if not re.match(r'(([A-Z]{2})\s?(\d{2})\s?([A-Z]){3})', string):
+do_check(variable[3], 'image.jpg')
+do_check(variable[3], 'image.JPG')
+do_check(variable[3], 'file.php')
+	
 
-		print string + " does not match"
+# # matches a colour hex value i.e. #a5a5a5 or #fff
 
-	else:
+do_check(variable[4], '#a5a5a5')
+do_check(variable[4], '#fff')
+do_check(variable[4], 'a7a7a7')
 
-		print string + " matches"
 
-check_numberplace('AD 64 HGV')
-check_numberplace('AD64HGV')
-check_numberplace('64ADHGV')
+# # does string contain 2 letters either LD or AZ at the start, followed by 5 numbers and a (.) then a domain name. For example LD89780.simonfletcher.co.uk
 
-# Matching an IP Address
+do_check(variable[5], 'LD89780.simonfletcher.co.uk')
+do_check(variable[5], 'LD89780.simonfletcher')
 
--- 
+
+# # Username must contain one uppercase and one lowercase charater and two digits
+
+do_check(variable[7], 'Fletcher890')
+do_check(variable[7], 'Fletc0her')
+
+
+# # Match an generic english car registration 
+
+do_check(variable[8], 'AD 64 HGV')
+do_check(variable[8], 'AD64HGV')
+do_check(variable[8], '64ADHGV')
+
+
+# # Check password for one capital letter and one special character. The string can only be 6-15 characters long
+
+do_check(variable[9], 'fLetch/er89')
+do_check(variable[9], 'fLetcher89')
+
+
+# # Matching an IP Address including optional port number
+
+do_check(variable[10], '73.126.33.108:3000')
+do_check(variable[10], '73.126.33')
