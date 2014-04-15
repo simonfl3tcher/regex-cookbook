@@ -41,7 +41,8 @@ variable = [
 	'(.*[?=.*A-Z])([?=.*a-z])(?=.*\d).{6,15}$', # Username check
 	'(([A-Z]{2})\s?(\d{2})\s?([A-Z]){3})', # match english car registration
 	'(.*[?=.*A-Z])([?=.*a-z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{6,15}$', # Special
-	'^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}?:\d{2,4})$' # IP Address Check
+	'^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}?:\d{2,4})$', # IP Address Check
+	'^is_unique\[(.*)\]' # Get value between is_unique[]
 ]
 
 
@@ -127,3 +128,6 @@ do_check(variable[9], 'fLetcher89')
 
 do_check(variable[10], '73.126.33.108:3000')
 do_check(variable[10], '73.126.33')
+
+# # match the value within the "is_unique[]" 
+do_check(variable[11], 'is_unique[user.email]')
