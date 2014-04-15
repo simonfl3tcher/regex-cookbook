@@ -131,3 +131,4 @@ do_check(variable[10], '73.126.33')
 
 # # match the value within the "is_unique[]" 
 do_check(variable[11], 'is_unique[user.email]')
+do_check(variable[11], 'is_unique[user.email')
