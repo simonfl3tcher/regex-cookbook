@@ -42,7 +42,8 @@ variable = [
 	'(([A-Z]{2})\s?(\d{2})\s?([A-Z]){3})', # match english car registration
 	'(.*[?=.*A-Z])([?=.*a-z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{6,15}$', # Special
 	'^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}?:\d{2,4})$', # IP Address Check
-	'^is_unique\[(.*)\]' # Get value between is_unique[]
+	'^is_unique\[(.*)\]', # Get value between is_unique[]
+	'([<p>]*?{(\/)?(one_half|one_third|two_third|one_fourth|two_fourth|three_fourth|one_fifth|two_fifth|three_fifth|four_fifth|one_sixth|two_sixth|three_sixth|four_sixth|five_sixth)_?(last)?\}[<\/p>]*)' # column short code for example match {one_half}
 ]
 
 
@@ -132,3 +133,8 @@ do_check(variable[10], '73.126.33')
 # # match the value within the "is_unique[]" 
 do_check(variable[11], 'is_unique[user.email]')
 do_check(variable[11], 'is_unique[user.email')
+
+# # match the value within the "is_unique[]" 
+do_check(variable[12], '{one_half}')
+do_check(variable[12], '{/one_half}')
+do_check(variable[12], '{/one_half')
