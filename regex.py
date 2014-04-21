@@ -134,7 +134,7 @@ do_check(variable[10], '73.126.33')
 do_check(variable[11], 'is_unique[user.email]')
 do_check(variable[11], 'is_unique[user.email')
 
-# # match the value within the "is_unique[]" 
+# # match value between the {} and so you are able to change to the necessary HTML alternative" 
 do_check(variable[12], '{one_half}')
 do_check(variable[12], '{/one_half}')
 do_check(variable[12], '{/one_half')
